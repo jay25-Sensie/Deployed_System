@@ -1,0 +1,47 @@
+table {
+    width: 100%;
+    text-align: center;
+}
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+th {
+    background-color: #f4f4f4;
+}
+input[type="number"] {
+    width: 50px;
+    text-align: center;
+}
+h4{
+    text-align: right;
+}
+.form-control-num{
+    width: 30%;
+}
+table {
+    width: 100%;
+    text-align: center;
+}
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+th {
+    background-color: #f4f4f4;
+}
+input[type="number"], input[type="time"] {
+    width: 80px;
+    text-align: center;
+}
+.form-control-num {
+    width: 50px;
+}
+.doses-container {
+    display: flex;
+    justify-content: space-around;
+}
+input[type="number"], input[type="time"] {
+    width: 120px; /* Adjust this value to increase the width */
+    text-align: center;
+}
