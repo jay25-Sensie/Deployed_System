@@ -16,14 +16,14 @@
                 <div class="logo-text">IMMACULATE<br>MEDICO-SURGICAL CLINIC</div>
             </div>
             <div class="login-buttons">
-                <a href="Admin_Staff_login.php">Admin Staff's Login</a>
+                <a href="Admin_Staff_login.php">Administrative Staff's Login</a>
                 <a href="Doctor_login.php">Doctor's Login</a>
                 <a href="Patient_login.php">Patient's Login</a>
             </div>
         </div>
 
         <div class="title">
-            Health Record Management<br> System with Medication Alert <br>Notification
+            Health Records Management<br> System with Medication Alert <br>Notification
         </div>
 
         <div class="scroll-container">
@@ -31,23 +31,23 @@
                 <div class="image-box" id="image-box-1">
                     <img src="..//img/image2.jpg" alt="Additional Image">
                     <img src="..//img/image.jpg" alt="Additional Image">
-                    <img src="..//img/image1.jpg" alt="Additional Image">
+                    <img src="..//img/image6.jpg" alt="Additional Image">
                     <img src="..//img/image3.jpg" alt="Additional Image">
                 </div>
                 <div class="image-box" id="image-box-2">
                     <img src="..//img/image.jpg" alt="Additional Image">
                     <img src="..//img/image2.jpg" alt="Additional Image">
                     <img src="..//img/image3.jpg" alt="Additional Image">
-                    <img src="..//img/image1.jpg" alt="Additional Image">
+                    <img src="..//img/image6.jpg" alt="Additional Image">
                 </div>
                 <div class="image-box" id="image-box-3">
                     <img src="..//img/image3.jpg" alt="Additional Image">
-                    <img src="..//img/image1.jpg" alt="Additional Image">
+                    <img src="..//img/image6.jpg" alt="Additional Image">
                     <img src="..//img/image.jpg" alt="Additional Image">
                     <img src="..//img/image2.jpg" alt="Additional Image">
                 </div>
                 <div class="image-box" id="image-box-4">
-                    <img src="..//img/image1.jpg" alt="Additional Image">
+                    <img src="..//img/image6.jpg" alt="Additional Image">
                     <img src="..//img/image3.jpg" alt="Additional Image">
                     <img src="..//img/image2.jpg" alt="Additional Image">
                     <img src="..//img/image.jpg" alt="Additional Image">

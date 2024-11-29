@@ -13,12 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve and sanitize form data
     $pid = isset($_POST['pid']) ? intval($_POST['pid']) : 0;
     $date = sanitize_input($_POST['date']);
-    $bp = isset($_POST['bp']) ? sanitize_input($_POST['bp']) : null;
-    $cr = isset($_POST['cr']) ? sanitize_input($_POST['cr']) : null;
-    $rr = isset($_POST['rr']) ? sanitize_input($_POST['rr']) : null;
-    $t = isset($_POST['t']) ? sanitize_input($_POST['t']) : null;
-    $wt = isset($_POST['wt']) ? sanitize_input($_POST['wt']) : null;
-    $ht = isset($_POST['ht']) ? sanitize_input($_POST['ht']) : null;
+    $bp = isset($_POST['bp']) && !empty($_POST['bp']) ? sanitize_input($_POST['bp']) : 'N/A';
+    $cr = isset($_POST['cr']) && !empty($_POST['cr']) ? sanitize_input($_POST['cr']) : 'N/A';
+    $rr = isset($_POST['rr']) && !empty($_POST['rr']) ? sanitize_input($_POST['rr']) : 'N/A';
+    $t = isset($_POST['t']) && !empty($_POST['t']) ? sanitize_input($_POST['t']) : 'N/A';
+    $wt = isset($_POST['wt']) && !empty($_POST['wt']) ? sanitize_input($_POST['wt']) : 'N/A';
+    $ht = isset($_POST['ht']) && !empty($_POST['ht']) ? sanitize_input($_POST['ht']) : 'N/A';
 
     // Validate PID
     if ($pid > 0) {

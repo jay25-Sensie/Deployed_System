@@ -170,6 +170,7 @@ $medicineSchedules = mysqli_fetch_all($result, MYSQLI_ASSOC);
                         <th>Doses per Day</th>
                         <th>Meal Timings</th>
                         <th>Dose Timings</th>
+                        <th>Duration (End Date)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -191,6 +192,8 @@ $medicineSchedules = mysqli_fetch_all($result, MYSQLI_ASSOC);
                                 }
                                 ?>
                             </td>
+                            <td><?php echo htmlspecialchars($medicineSchedule['duration']); ?></td>
+
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

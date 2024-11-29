@@ -1,8 +1,7 @@
-
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f3f3f3;
+    /*background: #f3f3f3;*/
 }
 
 .container {
@@ -22,9 +21,11 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image:url(..//img/image1.jpg);
+    background-image: url(..//img/image1.jpg);
     background-size: cover;
-    filter: blur(0.1px); /* Apply blur effect */
+    background-position:center;
+    background-repeat: no-repeat;
+    filter: blur(3px); /* Apply blur effect */
     z-index: -2;
 }
 
@@ -55,19 +56,21 @@ body {
 
 .logo img {
     height: 70px;
-    margin-right: 20px;
+    margin-right: 10px;
+    margin-left: -20px;
 }
 
 .logo-text {
-    font-size: 1.5em;
+    font-size: 28px;
     font-weight: bold;
-    line-height: 1.4;
+    line-height: 1.1;
     text-align: left;
     color: #333;
 }
 
 .login-buttons {
     display: flex;
+    font-size: 24px;
     gap: 15px;
 }
 
@@ -89,7 +92,7 @@ body {
 .title {
     float: right;
     position: relative;
-    top: 100px;
+    top: 30px;
     margin: 20px;
     font-size: 4em;
     font-weight: bold;
@@ -101,22 +104,23 @@ body {
     display: flex;
     align-items: center;
     flex-direction: column;
-    margin: 100px auto; 
+    margin: 0 auto; /* Center the container */
+    margin-top: 150px; /* Reduced space below the title */
+    margin-bottom: 20px;
 }
 
 .image-grid {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 370px;
+    gap: 50px;
+    margin-top: 20px; /* Adjust space between images */
+    overflow: hidden; /* Prevent layout shifting during hover */
 }
 
 .image-box {
     width: 270px;
     height: 270px;
-    margin-left: 20px;
-    margin-right: 20px;
     background-color: #ccc;
     display: flex;
     justify-content: center;
@@ -124,6 +128,15 @@ body {
     border-radius: 10px;
     overflow: hidden;
     position: relative;
+    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease; /* Smooth transition for box hover */
+}
+
+.image-box:hover {
+    transform: scale(1.2); /* Enlarge the entire box */
+    width: 324px;
+    height: 324px;
+    z-index: 10; /* Bring to the front */
+    border-radius: 20px;
 }
 
 .image-box img {
@@ -131,12 +144,18 @@ body {
     height: 100%;
     object-fit: cover;
     position: absolute;
-    transition: opacity 1s ease-in-out;
+    transition: transform 0.3s ease, opacity 1s ease-in-out;
+    border-radius:20px;
+}
+
+.image-box:hover img {
+    transform: scale(1.1); /* Enlarge image slightly more */
+    border-radius:20px;
 }
 
 .description {
     text-align: center;
-    margin: 50px 20px;
+    margin: 20px 20px;
     font-size: 1.2em;
     color: white;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
@@ -193,10 +212,9 @@ a {
 
 /* Hover effect for anchor tags */
 a:hover {
-    color: #0056b3; 
-    transform: scale(1.1); 
+    color: #0056b3;
+    transform: scale(1.1);
     text-decoration: none;
-
 }
 
 /* Optionally add a subtle underline animation */

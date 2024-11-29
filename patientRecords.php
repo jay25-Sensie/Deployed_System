@@ -489,7 +489,7 @@ $patients = mysqli_fetch_all($result, MYSQLI_ASSOC);
                                                 </div>
                                                 <div class="modal-body">
                                                     <input type="hidden" name="pid" value="<?php echo $patient['pid']; ?>">
-
+                                
                                                     <?php
                                                     // Fetch the most recent weight and height for the specific patient
                                                     $pid = $patient['pid'];
@@ -501,38 +501,38 @@ $patients = mysqli_fetch_all($result, MYSQLI_ASSOC);
                                                     $stmt->fetch();
                                                     $stmt->close();
                                                     ?>
-
+                                
                                                     <div class="form-group">
                                                         <label for="vital-date">Date</label>
                                                         <input type="date" class="form-control" id="vital-date" name="date" value="<?php echo date('Y-m-d'); ?>" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="vital-bp">Blood Pressure</label>
-                                                        <input type="text" class="form-control" id="vital-bp" name="bp" required oninput="onlyNumbers(this)">
+                                                        <input type="text" class="form-control" id="vital-bp" name="bp">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="vital-cr">Heart Rate</label>
-                                                        <input type="text" class="form-control" id="vital-cr" name="cr" required oninput="onlyNumbers(this)">
+                                                        <input type="text" class="form-control" id="vital-cr" name="cr" oninput="onlyNumbers(this)">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="vital-rr">Respiratory Rate</label>
-                                                        <input type="text" class="form-control" id="vital-rr" name="rr" required oninput="onlyNumbers(this)">
+                                                        <input type="text" class="form-control" id="vital-rr" name="rr"  oninput="onlyNumbers(this)">
                                                     </div>
+                                                    <!-- Temperature input -->
                                                     <div class="form-group">
                                                         <label for="vital-t">Temperature</label>
-                                                        <input type="text" class="form-control" id="vital-t" name="t" required oninput="onlyNumbers(this)">
+                                                        <input type="text" class="form-control" id="vital-t" name="t" oninput="onlyNumbers(this)">
                                                     </div>
-
-                                                    <!-- Weight and Height with previous values pre-filled -->
+                                                    
+                                                    <!-- Weight and Height input -->
                                                     <div class="form-group">
                                                         <label for="vital-wt">Weight (kg)</label>
-                                                        <input type="text" class="form-control" id="vital-wt" name="wt" value="<?php echo htmlspecialchars($prev_wt); ?>" required oninput="onlyNumbers(this)">
+                                                        <input type="text" class="form-control" id="vital-wt" name="wt" value="<?php echo (!empty($prev_wt) && $prev_wt != 0) ? htmlspecialchars($prev_wt) : 'N/A'; ?>" oninput="onlyNumbers(this)">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="vital-ht">Height (cm)</label>
-                                                        <input type="text" class="form-control" id="vital-ht" name="ht" value="<?php echo htmlspecialchars($prev_ht); ?>" required oninput="onlyNumbers(this)">
+                                                        <input type="text" class="form-control" id="vital-ht" name="ht" value="<?php echo (!empty($prev_ht) && $prev_ht != 0) ? htmlspecialchars($prev_ht) : 'N/A'; ?>" oninput="onlyNumbers(this)">
                                                     </div>
-
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -542,6 +542,7 @@ $patients = mysqli_fetch_all($result, MYSQLI_ASSOC);
                                         </div>
                                     </div>
                                 </div>
+
 
 
                             <?php endforeach; ?>
@@ -591,7 +592,7 @@ $patients = mysqli_fetch_all($result, MYSQLI_ASSOC);
        
                         <div class="form-group">
                             <label for="birthday">Birthdate</label>
-                            <input type="date" class="form-control birthday-input" id="birthday" name="birthday" required>
+                            <input type="date" class="form-control birthday-input" id="birthday" name="birthday">
                         </div>
                         <div class="form-group">
                             <label for="age">Age</label>

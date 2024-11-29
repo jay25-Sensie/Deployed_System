@@ -15,12 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vital_id'], $_POST['p
     $wt = $_POST['wt'];
     $ht = $_POST['ht'];
 
-    // Validate input data
-    if (empty($date) || empty($bp) || empty($cr) || empty($rr) || empty($t) || empty($wt) || empty($ht)) {
-        // Redirect back with error message if any field is empty
-        header("Location: patient_record.php?pid=$pid&error=Please fill in all required fields");
-        exit;
-    }
+    // // Validate input data
+    // if (empty($date) || empty($bp) || empty($cr) || empty($rr) || empty($t) || empty($wt) || empty($ht)) {
+    //     // Redirect back with error message if any field is empty
+    //     header("Location: viewPatient_Admin.php?pid=$pid&error=Please fill in all required fields");
+    //     exit;
+    // }
 
     // Update vital sign in the database
     $updateQuery = "UPDATE vital_signs SET date = ?, bp = ?, cr = ?, rr = ?, t = ?, wt = ?, ht = ? WHERE id = ? AND pid = ?";
