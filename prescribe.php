@@ -191,7 +191,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'doctor') {
                             </select>
                         </td>
                         <td class="doses-container"></td>
-                        <td><input type="date" name="duration[]" class="form-control" required></td>
+                        <td><input type="date" name="end_date[]" class="form-control" required></td>
                         <td>
                             <select name="meal_time[]" class="form-control">
                                 <option value="0">Before Meal</option>
@@ -260,7 +260,7 @@ function addRow() {
             </select>
         </td>
         <td class="doses-container"></td>
-        <td><input type="date" name="duration[]" class="form-control" required></td>
+        <td><input type="date" name="end_date[]" class="form-control" required></td>
         <td>
             <select name="meal_time[]" class="form-control">
                 <option value="0">Before Meal</option>

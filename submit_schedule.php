@@ -41,7 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dose_timings_array = $_POST['dose_timings'];
     $durations_array = $_POST['duration'];
     $meal_timings_array = isset($_POST['meal_time']) ? $_POST['meal_time'] : [];
-    
+    $end_date_array = $_POST['end_date'];  // Add this line to capture the end dates
+
     // Fetch the patient's phone number
     $patient_stmt = $con->prepare("SELECT phone_number FROM patient_records WHERE pid = ?");
     $patient_stmt->bind_param("i", $pid);
@@ -60,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $medicine_name = $medicine_names[$i];
         $doses_per_day = $doses_per_day_array[$i];
         $timings = $dose_timings_array[$i];
-        $duration = $durations_array[$i];
+        $end_date = $end_date_array[$i]; // Get the specific end date for this medicine
         $meal_timing = isset($meal_timings_array[$i]) ? $meal_timings_array[$i] : null;
 
         $timing1 = $timings[0] ?? null;
@@ -69,15 +70,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $timing4 = $timings[3] ?? null;
         $timing5 = null; // Added for dose_timing_5 (assuming you might want it here later)
 
+        // Validate the end date is in the future
+        if (strtotime($end_date) < strtotime('today')) {
+            echo "<script>alert('Error: End date cannot be in the past.');</script>";
+            exit;
+        }
+
         // Insert medicine schedule into the database
         $stmt = $con->prepare("
             INSERT INTO medicine_schedule 
-            (pid, medicine_name, doses_per_day, dose_timing_1, dose_timing_2, dose_timing_3, dose_timing_4, dose_timing_5, meal_timing, duration, created_at, updated_at) 
+            (pid, medicine_name, doses_per_day, dose_timing_1, dose_timing_2, dose_timing_3, dose_timing_4, dose_timing_5, meal_timing, end_date, created_at, updated_at) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
         ");
-        $stmt->bind_param("isssssssss", $pid, $medicine_name, $doses_per_day, $timing1, $timing2, $timing3, $timing4, $timing5, $meal_timing, $duration);
+        $stmt->bind_param("isssssssss", $pid, $medicine_name, $doses_per_day, $timing1, $timing2, $timing3, $timing4, $timing5, $meal_timing, $end_date);
 
         if ($stmt->execute()) {
+            // Send SMS reminder
+            $message = "Reminder: You have been prescribed $medicine_name. Please follow the prescribed timings.";
+            sendSMS($phone_number, $message, $semaphore_api_key);
+
             echo "<script>alert('Medicine schedule created successfully.');  window.location.href = 'Doctor_Prescription.php';</script>";
         } else {
             echo "<script>alert('Error: " . $stmt->error . "');</script>";

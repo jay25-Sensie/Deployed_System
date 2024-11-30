@@ -5,7 +5,7 @@ include("connection.php");
 if (isset($_SESSION['pid'])) {
     $pid = $_SESSION['pid'];
     $last_login = date('Y-m-d H:i:s');
-    $update_query = "UPDATE users SET last_login = '$last_lgin' WHERE username = '$pid'";
+    $update_query = "UPDATE users SET last_login = '$last_login' WHERE username = '$pid'";
     if (mysqli_query($con, $update_query)) {
         session_destroy();
         echo json_encode(['status' => 'success']);

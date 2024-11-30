@@ -192,7 +192,7 @@ $medicineSchedules = mysqli_fetch_all($result, MYSQLI_ASSOC);
                                 }
                                 ?>
                             </td>
-                            <td><?php echo htmlspecialchars($medicineSchedule['duration']); ?></td>
+                            <td><?php echo htmlspecialchars($medicineSchedule['end_date']); ?></td>
 
                         </tr>
                     <?php endforeach; ?>

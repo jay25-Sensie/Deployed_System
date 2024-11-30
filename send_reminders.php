@@ -47,14 +47,14 @@ function sendScheduledReminders($con, $api_key) {
 
     // Query the database for matching reminders
     $stmt = $con->prepare("
-        SELECT ms.pid, ms.medicine_name, pr.phone_number
+        SELECT ms.pid, ms.medicine_name, ms.end_date, pr.phone_number
         FROM medicine_schedule ms
         JOIN patient_records pr ON ms.pid = pr.pid
         WHERE 
-            TIME(ms.dose_timing_1) = ? OR 
+            (TIME(ms.dose_timing_1) = ? OR 
             TIME(ms.dose_timing_2) = ? OR 
             TIME(ms.dose_timing_3) = ? OR 
-            TIME(ms.dose_timing_4) = ?
+            TIME(ms.dose_timing_4) = ?)
     ");
 
     // Bind the current time to all dose timings
@@ -67,6 +67,14 @@ function sendScheduledReminders($con, $api_key) {
         while ($row = $result->fetch_assoc()) {
             $medicine_name = $row['medicine_name'];
             $phone_number = $row['phone_number'];
+            $end_date = $row['end_date'];
+
+            // Check if the current date is past the end date
+            $current_date = date('Y-m-d');
+            if (strtotime($current_date) > strtotime($end_date)) {
+                // Skip sending reminders for this prescription
+                continue;
+            }
 
             // Prepare the message
             $message = "It's time for your medicine. Please take your $medicine_name now. Stay healthy and have a great day!."; 
