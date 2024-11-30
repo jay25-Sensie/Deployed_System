@@ -321,7 +321,7 @@ $month_name = date('F', mktime(0, 0, 0, $current_month, 1, $current_year)); // F
 <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App (local) -->
 <script src="dist/js/adminlte.js"></script>
-<script src="../logout.js"></script>
+<script src="../Logout.js"></script>
 
 <script>
 function editDates() {

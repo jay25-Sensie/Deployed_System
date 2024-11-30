@@ -220,6 +220,6 @@ $con->close();
 <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.js"></script>
-<script src="./logout.js"></script>
+<script src="./Logout.js"></script>
 </body>
 </html>

@@ -653,7 +653,7 @@ $patients = mysqli_fetch_all($result, MYSQLI_ASSOC);
 <!-- AdminLTE App (local) -->
 <script src="dist/js/adminlte.js"></script>
 <script src="../Bday_Validation.js"></script>
-<script src="../logout.js"></script>
+<script src="../Logout.js"></script>
 <script>
     function onlyNumbers(input) {
         input.value = input.value.replace(/[^0-9]/g, '');

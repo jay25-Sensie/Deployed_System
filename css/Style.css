@@ -155,7 +155,7 @@ body {
 
 .description {
     text-align: center;
-    margin: 20px 20px;
+    margin: 20px 20px 10px 20px;  /* Set the bottom margin to 10px */
     font-size: 1.2em;
     color: white;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
@@ -163,11 +163,13 @@ body {
 
 .policies {
     text-align: center;
-    margin: 20px 20px;
+    margin-top: 10px;
+    margin-bottom: 0;
     font-size: 1em;
     color: white;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
 }
+
 
 .policies a {
     color: #007bff;

@@ -13,7 +13,7 @@
         <div class="header">
             <div class="logo">
                 <img src="../img/logo.png" alt="Clinic Logo">
-                <div class="logo-text">IMMACULATE<br>MEDICO-SURGICAL CLINIC</div>
+               <div class="logo-text">IMMACULATE<br><span style="font-size:20px;">MEDICO-SURGICAL CLINIC</span></div>
             </div>
             <div class="login-buttons">
                 <a href="Admin_Staff_login.php">Administrative Staff's Login</a>
@@ -31,23 +31,23 @@
                 <div class="image-box" id="image-box-1">
                     <img src="..//img/image2.jpg" alt="Additional Image">
                     <img src="..//img/image.jpg" alt="Additional Image">
-                    <img src="..//img/image6.jpg" alt="Additional Image">
+                    <img src="..//img/image7.jpg" alt="Additional Image">
                     <img src="..//img/image3.jpg" alt="Additional Image">
                 </div>
                 <div class="image-box" id="image-box-2">
                     <img src="..//img/image.jpg" alt="Additional Image">
                     <img src="..//img/image2.jpg" alt="Additional Image">
                     <img src="..//img/image3.jpg" alt="Additional Image">
-                    <img src="..//img/image6.jpg" alt="Additional Image">
+                    <img src="..//img/image7.jpg" alt="Additional Image">
                 </div>
                 <div class="image-box" id="image-box-3">
                     <img src="..//img/image3.jpg" alt="Additional Image">
-                    <img src="..//img/image6.jpg" alt="Additional Image">
+                    <img src="..//img/image7.jpg" alt="Additional Image">
                     <img src="..//img/image.jpg" alt="Additional Image">
                     <img src="..//img/image2.jpg" alt="Additional Image">
                 </div>
                 <div class="image-box" id="image-box-4">
-                    <img src="..//img/image6.jpg" alt="Additional Image">
+                    <img src="..//img/image7.jpg" alt="Additional Image">
                     <img src="..//img/image3.jpg" alt="Additional Image">
                     <img src="..//img/image2.jpg" alt="Additional Image">
                     <img src="..//img/image.jpg" alt="Additional Image">
@@ -56,7 +56,7 @@
         </div>
 
         <div class="description">
-            Welcome to the Health Record Management System. Our system provides a efficient way to manage your health records and receive medication alerts. Stay organized and informed with our user-friendly platform.
+            Welcome to the Health Records Management System with Medication Alert Notification! <br> Manage your health records and medication reminders with ease. Stay informed about your health and medications with timely alerts. <br> Our user-friendly platform helps you stay organized, informed, and in control of your health journey.
         </div>
         
         <div class="policies">

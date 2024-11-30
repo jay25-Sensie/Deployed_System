@@ -387,7 +387,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pid'])) {
 <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App (local) -->
 <script src="dist/js/adminlte.js"></script>
-<script src="../logout.js"></script>
+<script src="../Logout.js"></script>
 <script>
   $(document).ready(function() {
     // Handle the input field for search

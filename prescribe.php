@@ -241,7 +241,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'doctor') {
 <!-- Local Bootstrap JS -->
 <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="../prescribe.js"></script>
-<script src="../logout.js"></script>
+<script src="../Logout.js"></script>
 
 <!-- Add Row Function -->
 <script>
