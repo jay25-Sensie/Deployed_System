@@ -1,47 +1,19 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // submit_schedule.php
 include 'connection.php';
-
-// Semaphore API credentials
-$semaphore_api_key = '598b6a6303a6fb12fe5a5f46d1af565f';
-
-// Function to send SMS via Semaphore
-function sendSMS($phone_number, $message, $api_key) {
-    $url = "https://api.semaphore.co/api/v4/messages";
-
-    $data = [
-        "apikey" => $api_key,
-        "number" => $phone_number,
-        "message" => $message,
-        "sendername" => 'Thesis'
-    ];
-
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    $response = curl_exec($ch);
-
-    if (curl_errno($ch)) {
-        echo "CURL Error: " . curl_error($ch);
-        file_put_contents('sms_log.txt', date('Y-m-d H:i:s') . " - CURL Error: " . curl_error($ch) . "\n", FILE_APPEND);
-    }
-
-    curl_close($ch);
-
-    return $response;
-}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $pid = $_POST['pid'];
     $medicine_names = $_POST['medicine_name'];
     $doses_per_day_array = $_POST['doses_per_day'];
-    $dose_timings_array = $_POST['dose_timings'];
-    $durations_array = $_POST['duration'];
-    $meal_timings_array = isset($_POST['meal_time']) ? $_POST['meal_time'] : [];
-    $end_date_array = $_POST['end_date'];  // Add this line to capture the end dates
+    $dose_timings_array = $_POST['dose_timings']; // Expecting an array of arrays for timings
+    $end_date_array = $_POST['end_date'];
+    $meal_timings_array = $_POST['meal_time'] ?? [];
 
     // Fetch the patient's phone number
     $patient_stmt = $con->prepare("SELECT phone_number FROM patient_records WHERE pid = ?");
@@ -51,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $patient_stmt->fetch();
     $patient_stmt->close();
 
-    if (empty($phone_number)) {
+    if (!$phone_number) {
         echo "<script>alert('Error: Patient phone number not found.'); window.location.href = 'Doctor_Prescription.php';</script>";
         exit;
     }
@@ -60,19 +32,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     for ($i = 0; $i < count($medicine_names); $i++) {
         $medicine_name = $medicine_names[$i];
         $doses_per_day = $doses_per_day_array[$i];
-        $timings = $dose_timings_array[$i];
-        $end_date = $end_date_array[$i]; // Get the specific end date for this medicine
-        $meal_timing = isset($meal_timings_array[$i]) ? $meal_timings_array[$i] : null;
+        $timings = $dose_timings_array[$i]; // Array of timings for the current medicine
+        $end_date = $end_date_array[$i];
+        $meal_timing = $meal_timings_array[$i] ?? null;
 
-        $timing1 = $timings[0] ?? null;
-        $timing2 = $timings[1] ?? null;
-        $timing3 = $timings[2] ?? null;
-        $timing4 = $timings[3] ?? null;
-        $timing5 = null; // Added for dose_timing_5 (assuming you might want it here later)
+        // Extract timings into variables (or null if not provided)
+        $timing1 = isset($timings[0]) ? $timings[0] : null;
+        $timing2 = isset($timings[1]) ? $timings[1] : null;
+        $timing3 = isset($timings[2]) ? $timings[2] : null;
+        $timing4 = isset($timings[3]) ? $timings[3] : null;
+        $timing5 = isset($timings[4]) ? $timings[4] : null; // Properly retrieve timing5 from the array
 
-        // Validate the end date is in the future
+        // Validate the end date
         if (strtotime($end_date) < strtotime('today')) {
-            echo "<script>alert('Error: End date cannot be in the past.');</script>";
+            echo "<script>alert('Error: End date cannot be in the past.'); window.location.href = 'Doctor_Prescription.php';</script>";
             exit;
         }
 
@@ -82,17 +55,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             (pid, medicine_name, doses_per_day, dose_timing_1, dose_timing_2, dose_timing_3, dose_timing_4, dose_timing_5, meal_timing, end_date, created_at, updated_at) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
         ");
-        $stmt->bind_param("isssssssss", $pid, $medicine_name, $doses_per_day, $timing1, $timing2, $timing3, $timing4, $timing5, $meal_timing, $end_date);
+
+        // Bind the parameters
+        $stmt->bind_param(
+            "isssssssss",
+            $pid,
+            $medicine_name,
+            $doses_per_day,
+            $timing1,
+            $timing2,
+            $timing3,
+            $timing4,
+            $timing5, // Properly pass timing5
+            $meal_timing,
+            $end_date
+        );
 
         if ($stmt->execute()) {
-            // Send SMS reminder
-            $message = "Reminder: You have been prescribed $medicine_name. Please follow the prescribed timings.";
-            sendSMS($phone_number, $message, $semaphore_api_key);
-
-            echo "<script>alert('Medicine schedule created successfully.');  window.location.href = 'Doctor_Prescription.php';</script>";
+            echo "<script>alert('Medicine schedule created successfully.'); window.location.href = 'Doctor_Prescription.php';</script>";
         } else {
             echo "<script>alert('Error: " . $stmt->error . "');</script>";
-            file_put_contents('sms_log.txt', date('Y-m-d H:i:s') . " - Error saving schedule for $medicine_name: " . $stmt->error . "\n", FILE_APPEND);
+            file_put_contents('error_log.txt', date('Y-m-d H:i:s') . " - Error saving schedule for $medicine_name: " . $stmt->error . "\n", FILE_APPEND);
         }
 
         $stmt->close();

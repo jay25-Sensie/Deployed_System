@@ -229,7 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <h2 class="card-title">Upload Medical Records</h2>
                 </div>
                 <div class="card-body">
-                    <form action="medical_records.php" method="POST" enctype="multipart/form-data">
+                    <form action="medical_Records.php" method="POST" enctype="multipart/form-data">
                         <!-- Patient Search with Suggestions -->
                         <div class="form-group">
                             <label for="patient_search">Select Patient (ID - Name):</label>

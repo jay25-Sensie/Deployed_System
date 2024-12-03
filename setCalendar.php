@@ -176,7 +176,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
   <div class="content-wrapper">
     <div class="container">
-      <h2 class="mt-4">Set Calendar - Closing Days</h2>
+      <h2 class="mt-4">Set Calendar</h2>
       <form method="post" onsubmit="return validateDates()">
         <div class="form-group">
           <label for="selected_dates">Select Dates:</label>

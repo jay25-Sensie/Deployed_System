@@ -168,7 +168,7 @@ $con->close();
 
   <div class="content-wrapper">
     <div class="container">
-      <h2 class="mt-4">Set Calendar - Closing Days</h2>
+      <h2 class="mt-4">Set Calendar</h2>
       <form method="post">
         <div class="form-group">
           <label for="selected_dates">Select Dates:</label>
