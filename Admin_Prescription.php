@@ -198,7 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
                 <div class="form-group">
                     <label for="patient_search">Select Patient (ID - Name):</label>
-                    <input type="text" class="form-control" id="patient_search" name="patient_search" placeholder="Search by ID or Name" required>
+                    <input type="text" class="form-control" id="patient_search" name="patient_search" placeholder="Select Patient" autocomplete="off" required>
                     <div id="patient_suggestions" class="list-group" style="display: none;"></div>
                     <input type="hidden" id="pid" name="pid">
                 </div>
@@ -257,83 +257,86 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <script src="dist/js/adminlte.js"></script>
 <script src="../Logout.js"></script>
 <script>
-$(document).ready(function() {
-    // Handle the input field for search
-    $("#patient_search").on("keyup", function(event) {
-        var search_term = $(this).val().trim();
+    $(document).ready(function() {
+        // Handle the input field for search
+        $("#patient_search").on("keyup", function(event) {
+            var search_term = $(this).val().trim();
 
-        if (search_term.length > 2) {
-            // If input is more than 2 characters, fetch suggestions from the server
-            $.ajax({
-                url: 'search_patients.php',
-                method: 'GET',
-                data: { q: search_term },
-                success: function(response) {
-                    if (response.trim() !== "") {
-                        $("#patient_suggestions").html(response).show(); // Show suggestions if there are results
-                    } else {
-                        $("#patient_suggestions").hide(); // Hide if no results
+            if (search_term.length > 2) {
+                // Fetch suggestions from the server if input is more than 2 characters
+                $.ajax({
+                    url: 'search_patients.php',
+                    method: 'GET',
+                    data: { q: search_term },
+                    success: function(response) {
+                        if (response.trim() !== "") {
+                            $("#patient_suggestions").html(response).show(); // Show suggestions if there are results
+                        } else {
+                            $("#patient_suggestions").hide(); // Hide if no results
+                        }
                     }
-                }
-            });
-        } else {
-            $("#patient_suggestions").hide(); // Hide suggestions when input is too short
-        }
-    });
-
-    // Handle selection of a patient from suggestions
-    $("#patient_suggestions").on("click", "li", function() {
-        var patientName = $(this).text(); // Get the patient's name
-        var patientId = $(this).data("pid"); // Get the patient's PID
-
-        // Set the selected patient's name in the search field
-        $("#patient_search").val(patientName);
-
-        // Store the patient ID in the hidden input field
-        $("#pid").val(patientId);
-
-        // Hide the suggestions once a patient is selected
-        $("#patient_suggestions").hide();
-
-        // Optionally enable a button or perform other actions
-        $("#generateReportButton").prop("disabled", false);
-    });
-
-    // Hide suggestions when the input loses focus, unless a suggestion is clicked
-    $("#patient_search").on("blur", function() {
-        setTimeout(function() {
-            $("#patient_suggestions").hide(); // Hide suggestions after a short delay
-        }, 300); // Small delay to allow click event on suggestion to register
-    });
-
-    // Handle Enter key press to select the first suggestion
-    $("#patient_search").on("keydown", function(event) {
-        if (event.key === "Enter") {
-            event.preventDefault(); // Prevent the form from submitting
-
-            // Find the first suggestion
-            var firstSuggestion = $("#patient_suggestions li").first();
-
-            if (firstSuggestion.length) {
-                var patientName = firstSuggestion.text(); // Get the patient's name
-                var patientId = firstSuggestion.data("pid"); // Get the patient's PID
-
-                // Set the selected patient's name in the search field
-                $("#patient_search").val(patientName);
-
-                // Store the patient ID in the hidden input field
-                $("#pid").val(patientId);
-
-                // Hide the suggestions once a patient is selected
-                $("#patient_suggestions").hide();
-
-                // Enable the generate report button if it's disabled
-                $("#generateReportButton").prop("disabled", false);
+                });
+            } else {
+                $("#patient_suggestions").hide(); // Hide suggestions when input is too short
             }
-        }
-    });
-});
+        });
 
+        // Handle selection of a patient from suggestions
+        $("#patient_suggestions").on("click", "li", function() {
+            var patientName = $(this).text(); // Get the patient's name
+            var patientId = $(this).data("pid"); // Get the patient's PID
+
+            // Set the selected patient's name in the search field
+            $("#patient_search").val(patientName);
+
+            // Store the patient ID in the hidden input field
+            $("#pid").val(patientId);
+
+            // Hide the suggestions once a patient is selected
+            $("#patient_suggestions").hide();
+
+            // Enable the generate report button
+            $("#generateReportButton").prop("disabled", false);
+        });
+
+        // Hide suggestions when the input loses focus, unless a suggestion is clicked
+        $("#patient_search").on("blur", function() {
+            setTimeout(function() {
+                $("#patient_suggestions").hide(); // Hide suggestions after a short delay
+            }, 300); // Small delay to allow click event on suggestion to register
+        });
+
+        // Handle Enter key press to select the first suggestion and submit the form
+        $("#patient_search").on("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevent default form submission
+
+                // Find the first suggestion
+                var firstSuggestion = $("#patient_suggestions li").first();
+
+                if (firstSuggestion.length) {
+                    var patientName = firstSuggestion.text(); // Get the patient's name
+                    var patientId = firstSuggestion.data("pid"); // Get the patient's PID
+
+                    // Set the selected patient's name in the search field
+                    $("#patient_search").val(patientName);
+
+                    // Store the patient ID in the hidden input field
+                    $("#pid").val(patientId);
+
+                    // Hide the suggestions once a patient is selected
+                    $("#patient_suggestions").hide();
+
+                    // Enable the generate report button
+                    $("#generateReportButton").prop("disabled", false);
+
+                    // Submit the form programmatically
+                    $("#patientReportForm").submit();
+                }
+            }
+        });
+    });
 </script>
+
 </body>
 </html>

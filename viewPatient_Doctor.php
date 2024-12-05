@@ -255,12 +255,12 @@ $vital_signs = mysqli_fetch_all($result, MYSQLI_ASSOC);
                   <?php foreach ($vital_signs as $vital): ?>
                   <tr>
                       <td><?php echo htmlspecialchars($vital['date']); ?></td>
-                      <td><?php echo htmlspecialchars($vital['bp']); ?></td>
-                      <td><?php echo htmlspecialchars($vital['cr']); ?></td>
-                      <td><?php echo htmlspecialchars($vital['rr']); ?></td>
-                      <td><?php echo htmlspecialchars($vital['t']); ?></td>
-                      <td><?php echo htmlspecialchars($vital['wt']); ?></td>
-                      <td><?php echo htmlspecialchars($vital['ht']); ?></td>
+                    <td><?php echo !empty($vital['bp']) ? htmlspecialchars($vital['bp']) : 'N/A'; ?></td>
+                    <td><?php echo !empty($vital['cr']) ? htmlspecialchars($vital['cr']) : 'N/A'; ?></td>
+                    <td><?php echo !empty($vital['rr']) ? htmlspecialchars($vital['rr']) : 'N/A'; ?></td>
+                    <td><?php echo (!empty($vital['t']) && $vital['t'] != 0) ? htmlspecialchars($vital['t']) : 'N/A'; ?></td>
+                    <td> <?php echo (!empty($vital['wt']) && $vital['wt'] != 0) ? htmlspecialchars($vital['wt']) : 'N/A'; ?></td>
+                    <td> <?php echo (!empty($vital['ht']) && $vital['ht'] != 0) ? htmlspecialchars($vital['ht']) : 'N/A'; ?></td>
                   </tr>
                   <?php endforeach; ?>
               </tbody>
@@ -281,19 +281,19 @@ $vital_signs = mysqli_fetch_all($result, MYSQLI_ASSOC);
                   </tr>
                   <tr>
                       <th><label for="subjective">Subjective:</label></th>
-                      <td><textarea name="subjective" class="form-control"required></textarea></td>
+                      <td><textarea name="subjective" class="form-control"></textarea></td>
                   </tr>
                   <tr>
                       <th><label for="objective">Objective:</label></th>
-                      <td><textarea name="objective" class="form-control" required></textarea></td>
+                      <td><textarea name="objective" class="form-control"></textarea></td>
                   </tr>
                   <tr>
                       <th><label for="assessment">Assessment:</label></th>
-                      <td><textarea name="assessment" class="form-control" required></textarea></td>
+                      <td><textarea name="assessment" class="form-control"></textarea></td>
                   </tr>
                   <tr>
                       <th><label for="plan">Plan:</label></th>
-                      <td><textarea name="plan" class="form-control" required></textarea></td>
+                      <td><textarea name="plan" class="form-control"></textarea></td>
                   </tr>
               </table>
               <button type="submit" class="btn btn-primary">Add Diagnosis</button>
@@ -406,22 +406,38 @@ $vital_signs = mysqli_fetch_all($result, MYSQLI_ASSOC);
 <script src="dist/js/adminlte.js"></script>
 <script src="../Logout.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Function to capitalize words in an input field
-    function capitalizeWords(event) {
-      const value = event.target.value;
-      event.target.value = value
-        .toLowerCase() // Ensure all text is lowercase
-        .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of every word
-    }
+ document.addEventListener('DOMContentLoaded', () => {
+  // List of words to keep lowercase
+  const lowercaseWords = ['and', 'or', 'the', 'in', 'on', 'for', 'at', 'to', 'by'];
 
-    // Attach the capitalizeWords function to all text and textarea inputs
-    // This will work even if the inputs are dynamically added later
-    const inputs = document.querySelectorAll('input[type="text"], textarea');
-    inputs.forEach(input => {
-      input.addEventListener('change', capitalizeWords); // Use 'change' event for more reliable capitalization
-    });
+  // Function to capitalize words correctly
+  function capitalizeWords(event) {
+    let value = event.target.value;
+
+    // Split the input into words
+    value = value
+      .split(' ')  // Split by spaces to handle each word separately
+      .map(word => {
+        // If the word is in the lowercaseWords list, make it lowercase, otherwise capitalize it
+        if (lowercaseWords.includes(word.toLowerCase())) {
+          return word.toLowerCase();
+        } else {
+          return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+        }
+      })
+      .join(' ');  // Join back into a single string
+
+    // Set the modified value back to the input field
+    event.target.value = value;
+  }
+
+  // Attach the capitalizeWords function to all text and textarea inputs
+  const inputs = document.querySelectorAll('input[type="text"], textarea');
+  inputs.forEach(input => {
+    input.addEventListener('change', capitalizeWords);  // Use 'change' event to apply capitalization
   });
+});
+
 </script>
 </body>
 </html>

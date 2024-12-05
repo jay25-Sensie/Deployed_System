@@ -70,6 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  
   <link rel="icon" type="image/png" href="img/logo.png">
   <title>Medical Records</title>
 
@@ -233,7 +234,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <!-- Patient Search with Suggestions -->
                         <div class="form-group">
                             <label for="patient_search">Select Patient (ID - Name):</label>
-                            <input type="text" class="form-control" id="patient_search" name="patient_search" placeholder="Search by ID or Name" required>
+                            <input type="text" class="form-control" id="patient_search" name="patient_search" placeholder="Select Patient" autocomplete="off" required>
                             <div id="patient_suggestions" class="list-group" style="display: none;"></div>
                             <input type="hidden" id="pid" name="pid">
                         </div>
@@ -287,79 +288,63 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <script src="dist/js/adminlte.js"></script>
 <script src="../Logout.js"></script>
 <script>
-  $(document).ready(function() {
-    // Handle the input field for search
-    $("#patient_search").on("keyup", function(event) {
-        var search_term = $(this).val().trim();
+  $(document).ready(function () {
+    // Fetch patient suggestions dynamically
+    $("#patient_search").on("keyup", function (event) {
+      const search_term = $(this).val().trim();
 
-        if (search_term.length > 2) {
-            // If input is more than 2 characters, fetch suggestions from the server
-            $.ajax({
-                url: 'search_patients.php',
-                method: 'GET',
-                data: { q: search_term },
-                success: function(response) {
-                    $("#patient_suggestions").html(response).show(); // Show suggestions
-                }
-            });
-        } else {
-            $("#patient_suggestions").hide(); // Hide suggestions if the input is too short
-        }
-    });
-
-    // Handle selection of a patient from suggestions
-    $("#patient_suggestions").on("click", "li", function() {
-        var patientName = $(this).text(); // Get the patient's name
-        var patientId = $(this).data("pid"); // Get the patient's PID
-
-        // Set the selected patient's name in the search field
-        $("#patient_search").val(patientName);
-
-        // Store the patient ID in the hidden input field
-        $("#pid").val(patientId);
-
-        // Hide the suggestions
-        $("#patient_suggestions").hide();
-
-        // Enable the "Generate Report" button
-        $("#generateReportButton").prop("disabled", false).click();
-    });
-
-    // Handle Enter key press to select the first suggestion and generate the report
-    $("#patient_search").on("keydown", function(event) {
-        if (event.key === "Enter") {
-            event.preventDefault(); // Prevent the form from submitting
-
-            // Find the first suggestion
-            var firstSuggestion = $("#patient_suggestions li").first();
-
-            if (firstSuggestion.length) {
-                var patientName = firstSuggestion.text(); // Get the patient's name
-                var patientId = firstSuggestion.data("pid"); // Get the patient's PID
-
-                // Set the selected patient's name in the search field
-                $("#patient_search").val(patientName);
-
-                // Store the patient ID in the hidden input field
-                $("#pid").val(patientId);
-
-                // Hide the suggestions
-                $("#patient_suggestions").hide();
-
-                // Enable the "Generate Report" button and trigger a click to generate the report
-                $("#generateReportButton").prop("disabled", false).click();
+      if (search_term.length > 2) {
+        $.ajax({
+          url: 'search_patients.php',
+          method: 'GET',
+          data: { q: search_term },
+          success: function (response) {
+            if (response.trim() !== "") {
+              $("#patient_suggestions").html(response).show();
+            } else {
+              $("#patient_suggestions").hide();
             }
+          }
+        });
+      } else {
+        $("#patient_suggestions").hide();
+      }
+    });
+
+    // Select patient from suggestions
+    $("#patient_suggestions").on("click", "li", function () {
+      const patientName = $(this).text();
+      const patientId = $(this).data("pid");
+
+      $("#patient_search").val(patientName);
+      $("#pid").val(patientId);
+      $("#patient_suggestions").hide();
+    });
+
+    // Handle Enter key press to select the first suggestion
+    $("#patient_search").on("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        const firstSuggestion = $("#patient_suggestions li").first();
+
+        if (firstSuggestion.length) {
+          const patientName = firstSuggestion.text();
+          const patientId = firstSuggestion.data("pid");
+
+          $("#patient_search").val(patientName);
+          $("#pid").val(patientId);
+          $("#patient_suggestions").hide();
         }
+      }
     });
 
-    // Hide suggestions when the input loses focus
-    $("#patient_search").on("blur", function() {
-        setTimeout(function() {
-            $("#patient_suggestions").hide(); // Hide suggestions after a short delay
-        }, 500); // 500ms delay before hiding suggestions
+    // Hide suggestions when input loses focus
+    $("#patient_search").on("blur", function () {
+      setTimeout(() => {
+        $("#patient_suggestions").hide();
+      }, 200);
     });
-});
-
+  });
 </script>
 </body>
 </html>

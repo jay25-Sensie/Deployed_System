@@ -231,12 +231,12 @@ $patients = mysqli_fetch_all($result, MYSQLI_ASSOC);
                     <?php foreach ($vital_signs as $vital): ?>
                     <tr>
                         <td><?php echo htmlspecialchars($vital['date']); ?></td>
-                        <td><?php echo htmlspecialchars($vital['bp']); ?></td>
-                        <td><?php echo htmlspecialchars($vital['cr']); ?></td>
-                        <td><?php echo htmlspecialchars($vital['rr']); ?></td>
-                        <td><?php echo htmlspecialchars($vital['t']); ?></td>
-                        <td><?php echo htmlspecialchars($vital['wt']); ?></td>
-                        <td><?php echo htmlspecialchars($vital['ht']); ?></td>
+                        <td><?php echo !empty($vital['bp']) ? htmlspecialchars($vital['bp']) : 'N/A'; ?></td>
+                        <td><?php echo !empty($vital['cr']) ? htmlspecialchars($vital['cr']) : 'N/A'; ?></td>
+                        <td><?php echo !empty($vital['rr']) ? htmlspecialchars($vital['rr']) : 'N/A'; ?></td>
+                        <td><?php echo (!empty($vital['t']) && $vital['t'] != 0) ? htmlspecialchars($vital['t']) : 'N/A'; ?></td>
+                        <td> <?php echo (!empty($vital['wt']) && $vital['wt'] != 0) ? htmlspecialchars($vital['wt']) : 'N/A'; ?></td>
+                        <td> <?php echo (!empty($vital['ht']) && $vital['ht'] != 0) ? htmlspecialchars($vital['ht']) : 'N/A'; ?></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>

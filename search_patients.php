@@ -1,27 +1,26 @@
 <?php
 include("connection.php");
 
-// Fetch the search term from the query string
-$search_term = isset($_GET['q']) ? $_GET['q'] : '';
+if (isset($_GET['q'])) {
+    $searchTerm = mysqli_real_escape_string($con, $_GET['q']);
 
-// Prevent SQL Injection
-$search_term = $con->real_escape_string($search_term);
+    // Search by PID, Name, or "PID - Name" format
+    $query = "SELECT pid, CONCAT(pid, ' - ', name, ' ', lastname) AS display_name 
+              FROM patient_records 
+              WHERE pid LIKE '%$searchTerm%' 
+                 OR name LIKE '%$searchTerm%' 
+                 OR lastname LIKE '%$searchTerm%' 
+                 OR CONCAT(pid, ' - ', name, ' ', lastname) LIKE '%$searchTerm%' 
+              LIMIT 10";
 
-// Query to fetch matching patients based on the search term
-$query = "SELECT * FROM patient_records WHERE pid LIKE '%$search_term%' OR name LIKE '%$search_term%' OR lastname LIKE '%$search_term%'";
+    $result = mysqli_query($con, $query);
 
-// Execute the query
-$result = $con->query($query);
-
-// Check if any results are found
-if ($result->num_rows > 0) {
-    echo "<ul class='list-group'>";
-    while ($row = $result->fetch_assoc()) {
-        // Output the patient suggestions
-        echo "<li class='list-group-item patient-item' data-pid='" . $row['pid'] . "' data-name='" . htmlspecialchars($row['name']) . "' data-lastname='" . htmlspecialchars($row['lastname']) . "'>" 
-             . $row['pid'] . " - " . htmlspecialchars($row['name']) . " " . htmlspecialchars($row['lastname']) 
-             . "</li>";
+    if ($result && mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<li class='list-group-item' data-pid='" . htmlspecialchars($row['pid']) . "'>" . htmlspecialchars($row['display_name']) . "</li>";
+        }
+    } else {
+        echo "<li class='list-group-item'>No matches found</li>";
     }
-    echo "</ul>";
 }
 ?>

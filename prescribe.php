@@ -183,6 +183,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'doctor') {
                         <td><input type="text" name="medicine_name[]" placeholder="Medicine name" class="form-control" required></td>
                         <td>
                             <select name="doses_per_day[]" class="form-control" onchange="generateDoses(this)">
+                                <option value="0">Doses per Day</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -190,12 +191,12 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'doctor') {
                                 <option value="5">5</option>
                             </select>
                         </td>
-                        <td class="doses-container"></td>
+                        <td class="doses-container" style="height: 80px;"></td>
                         <td><input type="date" name="end_date[]" class="form-control" required></td>
                         <td>
                             <select name="meal_time[]" class="form-control">
-                                <option value="0">Before Meal</option>
-                                <option value="1">After Meal</option>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
                             </select>
                         </td>
                     </tr>
@@ -252,6 +253,7 @@ function addRow() {
         <td><input type="text" name="medicine_name[]" placeholder="Medicine name" class="form-control" required></td>
         <td>
             <select name="doses_per_day[]" class="form-control" onchange="generateDoses(this)">
+                <option value="0">Doses per Day</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -259,12 +261,12 @@ function addRow() {
                 <option value="5">5</option>
             </select>
         </td>
-        <td class="doses-container"></td>
+        <td class="doses-container" style="height: 80px;"></td>
         <td><input type="date" name="end_date[]" class="form-control" required></td>
         <td>
             <select name="meal_time[]" class="form-control">
-                <option value="0">Before Meal</option>
-                <option value="1">After Meal</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
             </select>
         </td>
     `;

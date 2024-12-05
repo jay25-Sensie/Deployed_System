@@ -8,6 +8,9 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'doctor') {
   exit();
 }
 
+// Get the search query if it exists
+$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
+
 $diagnosisQuery = "
     SELECT 
         d.pid, 
@@ -22,7 +25,19 @@ $diagnosisQuery = "
     JOIN 
         patient_records p ON d.pid = p.pid
 ";
+
+// Add a WHERE clause if a search query is provided
+if (!empty($searchQuery)) {
+    $diagnosisQuery .= " WHERE d.pid LIKE ? OR CONCAT(p.name, ' ', p.lastname) LIKE ?";
+}
+
 $stmt = $con->prepare($diagnosisQuery);
+
+if (!empty($searchQuery)) {
+    $searchTerm = '%' . $searchQuery . '%';
+    $stmt->bind_param('ss', $searchTerm, $searchTerm); // Bind the parameters
+}
+
 $stmt->execute(); // Execute the prepared statement
 $diagnosisResult = $stmt->get_result();
 
@@ -105,7 +120,6 @@ if ($diagnosisResult->num_rows > 0) {
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Navbar Search -->
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
@@ -188,9 +202,15 @@ if ($diagnosisResult->num_rows > 0) {
   <div class="content-wrapper">
     <h3>Diagnosis Records</h3>
 
-    <?php
-    // Include the diagnosis fetching PHP file
+    <!-- Search form -->
+    <form method="get" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Search by PID or Name" value="<?php echo htmlspecialchars($searchQuery); ?>">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
 
+    <?php
     // Display the diagnosis records
     if (!empty($diagnosisRecords)) {
         echo '<table class="table table-bordered">
@@ -217,7 +237,7 @@ if ($diagnosisResult->num_rows > 0) {
                 <td class="col-size">' . htmlspecialchars($record['assessment']) . '</td>
                 <td class="col-size">' . htmlspecialchars($record['plan']) . '</td>
                 <td style="text-align: center;">
-                    <a href="prescribe.php?pid=' . htmlspecialchars($record['pid']) . '" class="btn btn-sm btn-info" >Set Medicine</a>
+                    <a href="prescribe.php?pid=' . htmlspecialchars($record['pid']) . '" class="btn btn-sm btn-info">Set Medicine</a>
                 </td>
             </tr>';
         }

@@ -169,23 +169,6 @@ $medicineSchedules = mysqli_fetch_all($result, MYSQLI_ASSOC);
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
-      <li class="nav-item">
-            <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                <i class="fas fa-search"></i>
-            </a>
-            <div class="navbar-search-block">
-                <form class="form-inline" action="patientRecords.php" method="post">
-                    <div class="input-group input-group-sm">
-                    <input class="form-control form-control-navbar" type="search" name="search" placeholder="Search by PID or Name" aria-label="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-navbar" type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-                </form>
-            </div>
-        </li>     
         <li class="nav-item">
           <a class="nav-link" data-widget="fullscreen" href="#" role="button">
             <i class="fas fa-expand-arrows-alt"></i>
@@ -341,9 +324,9 @@ $medicineSchedules = mysqli_fetch_all($result, MYSQLI_ASSOC);
         <div class="right-column">
           <ul>
             <li>Leonardo G. Carpio, MD.</li>
-            <li>Li. No. : 55597</li>
-            <li>PTR No. : </li>
-            <li>S2 No.  :</li>
+            <li style="padding-right:53px";>Li. No. : 55597</li>
+            <li style="padding-right:100px";>PTR No. : </li>
+            <li style="padding-right:100px";>S2 No.  :  </li>
           </ul> 
         </div>
       </div>
