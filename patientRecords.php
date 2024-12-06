@@ -455,7 +455,7 @@ $patients = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
                                                     <div class="form-group">
                                                         <label for="edit-phone-number">Phone Number</label>
-                                                        <input type="text" class="form-control" id="edit-phone-number" name="phone_number" value="<?php echo $patient['phone_number']; ?>" required oninput="onlyNumbers(this)">
+                                                        <input type="text" class="form-control" id="edit-phone-number" name="phone_number" oninput="validatePhoneNumber(this)" value="<?php echo $patient['phone_number']; ?>" required oninput="onlyNumbers(this)">
                                                     </div>
 
                                                     <div class="form-group">

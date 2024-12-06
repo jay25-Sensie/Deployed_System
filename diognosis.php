@@ -17,13 +17,13 @@ function sanitize_input($data) {
 // Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve and sanitize form data
-    $pid = isset($_POST['pid']) ? intval($_POST['pid']) : 0; // Change to $_POST
+    $pid = isset($_POST['pid']) ? intval($_POST['pid']) : 0; // Ensure PID is an integer
     $date = sanitize_input($_POST['date']);
-    $subjective = sanitize_input($_POST['subjective']);
-    $objective = sanitize_input($_POST['objective']);
-    $assessment = sanitize_input($_POST['assessment']);
-    $plan = sanitize_input($_POST['plan']);
-    $laboratory = isset($_POST['laboratory']) ? sanitize_input($_POST['laboratory']) : '';
+    $subjective = !empty(trim($_POST['subjective'])) ? sanitize_input($_POST['subjective']) : 'N/A';
+    $objective = !empty(trim($_POST['objective'])) ? sanitize_input($_POST['objective']) : 'N/A';
+    $assessment = !empty(trim($_POST['assessment'])) ? sanitize_input($_POST['assessment']) : 'N/A';
+    $plan = !empty(trim($_POST['plan'])) ? sanitize_input($_POST['plan']) : 'N/A';
+    $laboratory = !empty(trim($_POST['laboratory'])) ? sanitize_input($_POST['laboratory']) : 'N/A';
 
     // Validate PID
     if ($pid > 0) {
