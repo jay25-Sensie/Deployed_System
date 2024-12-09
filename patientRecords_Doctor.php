@@ -55,7 +55,7 @@ $update_status_query = "UPDATE patient_records pr
 mysqli_query($con, $update_status_query);
 
 // Selecting patients from the database with optional search filtering
-$query = "SELECT * FROM patient_records $search_query";
+$query = "SELECT * FROM patient_records $search_query ORDER BY pid DESC";
 $result = mysqli_query($con, $query);
 $patients = mysqli_fetch_all($result, MYSQLI_ASSOC);
 ?>

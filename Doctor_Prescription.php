@@ -31,6 +31,9 @@ if (!empty($searchQuery)) {
     $diagnosisQuery .= " WHERE d.pid LIKE ? OR CONCAT(p.name, ' ', p.lastname) LIKE ?";
 }
 
+// Add an ORDER BY clause to display results in descending order of the date
+$diagnosisQuery .= " ORDER BY d.date DESC";
+
 $stmt = $con->prepare($diagnosisQuery);
 
 if (!empty($searchQuery)) {

@@ -408,7 +408,7 @@ $vital_signs = mysqli_fetch_all($result, MYSQLI_ASSOC);
 <script>
  document.addEventListener('DOMContentLoaded', () => {
   // List of words to keep lowercase
-  const lowercaseWords = ['and', 'or', 'the', 'in', 'on', 'for', 'at', 'to', 'by'];
+  const lowercaseWords = ['and', 'or', 'the', 'in', 'on', 'for', 'at', 'to', 'by' 'of'];
 
   // Function to capitalize words correctly
   function capitalizeWords(event) {

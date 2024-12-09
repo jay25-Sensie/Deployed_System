@@ -144,7 +144,7 @@ if (!$result) {
 $patients = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 // Selecting patients from the database with optional search filtering
-$query = "SELECT * FROM patient_records $search_query";
+$query = "SELECT * FROM patient_records $search_query ORDER BY pid DESC";
 $result = mysqli_query($con, $query);
 $patients = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
